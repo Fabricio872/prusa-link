@@ -8,12 +8,16 @@
  * Author URI: https://github.com/Fabricio872
  */
 
+require __DIR__ . '/vendor/autoload.php';
+
 add_action( 'init', 'register_shortcodes' );
 
 function register_shortcodes() {
 	add_shortcode( 'pp-link', 'main' );
 }
 
-function main($atts = array(), $content = null) {
-	return $atts[0];
+function main( $atts = array(), $content = null ) {
+	$main = new \App\Main( $atts[0] );
+
+	return $main;
 }

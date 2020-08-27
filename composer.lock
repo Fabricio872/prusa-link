@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a59675d0db77e2469d1c6aa643d3621d",
+    "content-hash": "934b0d09a3bdcf850e9c0571eda76c59",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1103,6 +1103,52 @@
             "time": "2020-06-22T14:15:44+00:00"
         },
         {
+            "name": "phpcasperjs/phpcasperjs",
+            "version": "v1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alwex/php-casperjs.git",
+                "reference": "5a0f2fbbae1e0f31b12876fa1758f942dc4b01c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alwex/php-casperjs/zipball/5a0f2fbbae1e0f31b12876fa1758f942dc4b01c2",
+                "reference": "5a0f2fbbae1e0f31b12876fa1758f942dc4b01c2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "squizlabs/php_codesniffer": "2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Browser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "GUIDET Alexandre",
+                    "email": "alwex@free.fr"
+                }
+            ],
+            "description": "Simple PHP wrapper for CasperJS",
+            "homepage": "https://github.com/alwex/php-casperjs",
+            "keywords": [
+                "browser",
+                "phpunit",
+                "test"
+            ],
+            "time": "2017-04-04T03:15:58+00:00"
+        },
+        {
             "name": "psr/container",
             "version": "1.0.0",
             "source": {
@@ -1150,6 +1196,54 @@
                 "psr"
             ],
             "time": "2017-02-14T16:28:37+00:00"
+        },
+        {
+            "name": "sunra/php-simple-html-dom-parser",
+            "version": "v1.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sunra/php-simple-html-dom-parser.git",
+                "reference": "75b9b1cb64502d8f8c04dc11b5906b969af247c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sunra/php-simple-html-dom-parser/zipball/75b9b1cb64502d8f8c04dc11b5906b969af247c6",
+                "reference": "75b9b1cb64502d8f8c04dc11b5906b969af247c6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Sunra\\PhpSimple\\HtmlDomParser": "Src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sunra",
+                    "email": "sunra@yandex.ru",
+                    "homepage": "https://github.com/sunra"
+                },
+                {
+                    "name": "S.C. Chen",
+                    "homepage": "http://sourceforge.net/projects/simplehtmldom/"
+                }
+            ],
+            "description": "Composer adaptation of: A HTML DOM parser written in PHP5+ let you manipulate HTML in a very easy way! Require PHP 5+. Supports invalid HTML. Find tags on an HTML page with selectors just like jQuery. Extract contents from HTML in a single line.",
+            "homepage": "https://github.com/sunra/php-simple-html-dom-parser",
+            "keywords": [
+                "dom",
+                "html",
+                "parser"
+            ],
+            "time": "2016-11-22T22:57:47+00:00"
         },
         {
             "name": "symfony/console",

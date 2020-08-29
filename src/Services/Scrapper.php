@@ -2,33 +2,77 @@
 
 namespace App\Services;
 
-use Browser\Casper;
-use Sunra\PhpSimple\HtmlDomParser;
 
-class Scrapper {
-	private string $page;
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Facebook\WebDriver\WebDriverBy;
 
-	public function __construct( string $page ) {
-		$this->page = $page;
-	}
+class Scrapper
+{
+    private string $link;
+    private string $title;
+    private string $image;
+    private string $authorImage;
+    private string $author;
 
-	public function getOutput() {
-		$casper = new Casper();
-		$casper->setOptions(array('ignore-ssl-errors' => 'yes'));
-		$casper->start($this->page);
-		$casper->wait(5000);
-		$output = $casper->getOutput();
+    public function __construct(string $link)
+    {
+        $this->link = $link;
+    }
 
-		$outfile = __DIR__ . "/output" . uniqid() . ".html";
-		file_put_contents( $outfile, $output);
-		$casper->run();
-		$html = $casper->getHtml();
+    public function getOutput(): string
+    {
+        $attempts = 0;
+        do {
+            $success = $this->generateData();
+            $attempts++;
+        } while ( ! $success || $_ENV['ATTEMPTS'] < $attempts);
 
-		$outfile = __DIR__ . "/html" . uniqid() . ".html";
-		file_put_contents( $outfile, $html);
-		$dom = HtmlDomParser::str_get_html( $html );
-		$elems = $dom->find("a");
+        return json_encode([
+            'data' => [
+                'title'       => $this->title,
+                'image'       => $this->image,
+                'authorImage' => $this->authorImage,
+                'author'      => $this->author,
+            ],
+            'time' => []
+        ]);
+    }
 
-		return $elems;
-	}
+    private function generateData()
+    {
+        try {
+            $browser      = $_ENV["SELENIUM_BROWSER"];
+            $capabilities = DesiredCapabilities::$browser();
+            $driver       = RemoteWebDriver::create($_ENV["SELENIUM_HOST"], $capabilities);
+
+            $driver->get($this->link);
+
+            $image       = $driver->findElement(
+                WebDriverBy::cssSelector('div.ngx-gallery-image-size-640x480 > div > div.ngx-gallery-image')
+            );
+            $authorImage = $driver->findElement(
+                WebDriverBy::cssSelector('img.position-relative, .rounded-circle')
+            );
+            $author      = $driver->findElement(
+                WebDriverBy::cssSelector('span.username-text')
+            );
+
+            $this->title       = substr($driver->getTitle(), 0, -strlen(" | PrusaPrinters"));
+            $this->image       = substr($image->getAttribute('style'), strlen('background-image: url("'),
+                -strlen('");'));
+            $this->authorImage = $authorImage->getAttribute('src') ?? '';
+            $this->author      = $author->getText();
+
+            $driver->close();
+        } catch (\Exception $exception) {
+            if ($exception->getMessage() != 'Unable to locate element: div.ngx-gallery-image-size-640x480 > div > div.ngx-gallery-image') {
+                throw $exception;
+            }
+
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -12,6 +12,9 @@ require __DIR__ . '/vendor/autoload.php';
 
 add_action( 'init', 'register_shortcodes' );
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 function register_shortcodes() {
 	add_shortcode( 'pp-link', 'main' );
 }

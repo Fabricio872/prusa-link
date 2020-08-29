@@ -10,15 +10,17 @@ Widget for caching and showing data from web
     ```
     cd prusa-link
     ```
- 1. install phantomjs 
+ 1. build Docker Container 
     ```
-    cp phantomjs /usr/local/bin/phantomjs
-    ```
- 1. install casperjs
-    ```
-    npm install -g casperjs
+    docker run -d -p 4444:4444 -v /dev/shm:/dev/shm selenium/standalone-firefox:4.0.0-alpha-7-prerelease-20200826
     ```
  1. install plugin dependencies
     ```
     composer install
     ```
+## Usage
+ > [pp-link https://prusaprinters_url]
+
+ example:
+ > [pp-link https://www.prusaprinters.org/cs/prints/32714-prusa-pro-face-shield]
+    

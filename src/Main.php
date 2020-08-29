@@ -4,20 +4,23 @@ namespace App;
 
 use App\Services\Scrapper;
 
-class Main {
+class Main
+{
 
-	private string $link;
+    private string $id;
 
-	public function __construct( string $link ) {
-		$this->link = $link;
-	}
+    public function __construct(string $id)
+    {
+        $this->id = $id;
+    }
 
-	public function __toString() {
-		$scrapper = new Scrapper( $this->link );
+    public function __toString()
+    {
+        $scrapper = new Scrapper($this->id);
 
-		$outfile = __DIR__ . "/page" . uniqid() . ".html";
-		file_put_contents( $outfile, json_encode($scrapper->getOutput()));
+//		$outfile = __DIR__ . "/page" . uniqid() . ".html";
+//		file_put_contents( $outfile, json_encode($scrapper->getOutput()));
 
-		return $this->link;
-	}
+        return $scrapper->getOutput();
+    }
 }

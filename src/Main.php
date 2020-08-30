@@ -5,6 +5,7 @@ namespace App;
 use App\Entity\LinkCache;
 use App\Services\Doctrine;
 use App\Services\Scrapper;
+use App\Services\Twig;
 
 class Main
 {
@@ -18,9 +19,11 @@ class Main
     public function __toString()
     {
         $this->removeOldCaches();
-        dump($this->getLinkData());
 
-        return '$scrapper->getLinkData()';
+        return Twig::getInst()->getTwig()->render('index.html.twig', [
+            'linkData' => $this->getLinkData(),
+            'link'     => $this->link,
+        ]);
     }
 
     private function getLinkData(): LinkCache

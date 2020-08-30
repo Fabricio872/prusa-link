@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Prusa link
- * Plugin URI: http://www.mywebsite.com/my-first-plugin
+ * Plugin URI: https://github.com/Fabricio872/prusa-link
  * Description: Widget for caching and showing data from web
  * Version: 0.0.1
  * Author: Fabricio Jakubec

@@ -4,7 +4,7 @@ Widget for caching and showing data from web
  1. go to plugin directory ([wordpress-dir]/wp-content/plugins)
  1. clone project
     ```
-    git clone 
+    git clone https://github.com/Fabricio872/prusa-link.git
     ```
  1. go to project dir
     ```

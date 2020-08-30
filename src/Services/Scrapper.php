@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use App\Entity\LinkCache;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
@@ -20,7 +21,7 @@ class Scrapper
         $this->link = $link;
     }
 
-    public function getOutput(): string
+    public function getLinkData(): LinkCache
     {
         $attempts = 0;
         do {
@@ -28,15 +29,16 @@ class Scrapper
             $attempts++;
         } while ( ! $success || $_ENV['ATTEMPTS'] < $attempts);
 
-        return json_encode([
-            'data' => [
-                'title'       => $this->title,
-                'image'       => $this->image,
-                'authorImage' => $this->authorImage,
-                'author'      => $this->author,
-            ],
-            'time' => []
-        ]);
+        $linkCache = new LinkCache();
+        $linkCache
+            ->setToken(md5($this->link))
+            ->setTitle($this->title)
+            ->setImage($this->image)
+            ->setAuthorImage($this->authorImage)
+            ->setAuthor($this->author)
+        ;
+
+        return $linkCache;
     }
 
     private function generateData()

@@ -2,25 +2,57 @@
 
 namespace App;
 
+use App\Entity\LinkCache;
+use App\Services\Doctrine;
 use App\Services\Scrapper;
 
 class Main
 {
+    private string $link;
 
-    private string $id;
-
-    public function __construct(string $id)
+    public function __construct(string $link)
     {
-        $this->id = $id;
+        $this->link = $link;
     }
 
     public function __toString()
     {
-        $scrapper = new Scrapper($this->id);
+        $this->removeOldCaches();
+        dump($this->getLinkData());
 
-//		$outfile = __DIR__ . "/page" . uniqid() . ".html";
-//		file_put_contents( $outfile, json_encode($scrapper->getOutput()));
+        return '$scrapper->getLinkData()';
+    }
 
-        return $scrapper->getOutput();
+    private function getLinkData(): LinkCache
+    {
+        $linkCache = Doctrine::getInst()->getEm()->getRepository(LinkCache::class)->findOneBy([
+            'token' => md5($this->link)
+        ]);
+        if ($linkCache == null) {
+            $scrapper  = new Scrapper($this->link);
+            $linkCache = $scrapper->getLinkData();
+            Doctrine::getInst()->getEm()->persist($linkCache);
+            Doctrine::getInst()->getEm()->flush();
+        }
+
+        return $linkCache;
+    }
+
+    private function removeOldCaches()
+    {
+        $qb        = Doctrine::getInst()->getEm()->createQueryBuilder();
+        $oldCaches = $qb
+            ->from(LinkCache::class, 'lc')
+            ->select('lc')
+            ->where('lc.date < :date')
+            ->setParameter('date', new \DateTime('-' . $_ENV['CACHE_AGE']))
+            ->getQuery()
+            ->getResult();
+
+        foreach ($oldCaches as $oldCache) {
+            Doctrine::getInst()->getEm()->remove($oldCache);
+        }
+
+        Doctrine::getInst()->getEm()->flush();
     }
 }

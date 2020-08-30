@@ -18,6 +18,10 @@ Widget for caching and showing data from web
     ```
     composer install
     ```
+ 1. create table in database for caching
+    ```
+    vendor/bin/doctrine orm:schema-tool:update --force --dump-sql
+    ```
 ## Usage
  > [pp-link https://prusaprinters_url]
 

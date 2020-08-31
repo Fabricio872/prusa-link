@@ -16,7 +16,7 @@ class Main
         $this->link = $link;
     }
 
-    public function __toString()
+    public function getWidget()
     {
         $this->removeOldCaches();
 
@@ -24,6 +24,20 @@ class Main
             'linkData' => $this->getLinkData(),
             'link'     => $this->link,
         ]);
+    }
+
+    public function getJson(): array
+    {
+        $this->removeOldCaches();
+        $data = $this->getLinkData();
+
+        return [
+            'link'            => $this->link,
+            'title'           => $data->getTitle(),
+            'author'          => $data->getAuthor(),
+            'image'           => $data->getImage(),
+            'author_image'    => $data->getAuthorImage(),
+        ];
     }
 
     private function getLinkData(): LinkCache

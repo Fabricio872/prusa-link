@@ -10,17 +10,35 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-add_action( 'init', 'register_shortcodes' );
+add_action('rest_api_init', 'register_api');
+add_action('init', 'register_shortcodes');
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-function register_shortcodes() {
-	add_shortcode( 'pp-link', 'main' );
+function register_api()
+{
+    register_rest_route('prusa-link/v1', '/data/', array(
+        'methods'  => 'GET',
+        'callback' => 'json_api',
+    ));
 }
 
-function main( $atts = array(), $content = null ) {
-	$main = new \App\Main( $atts[0] );
+function register_shortcodes()
+{
+    add_shortcode('pp-link', 'widget');
+}
 
-	return $main;
+function widget($atts = array(), $content = null)
+{
+    $main = new \App\Main($atts[0]);
+
+    return $main->getWidget();
+}
+
+function json_api(WP_REST_Request $request)
+{
+    $main = new \App\Main($request->get_param('link'));
+
+    return rest_ensure_response($main->getJson());
 }

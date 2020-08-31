@@ -27,4 +27,23 @@ Widget for caching and showing data from web
 
  example:
  > [pp-link https://www.prusaprinters.org/cs/prints/32714-prusa-pro-face-shield]
-    
+
+## API usage
+### Request
+ - Endpoint: ```http://[wordptress_app_url]/wp-json/prusa-link/v1/data``` 
+ - Method: ```GET```
+ - Parameter: ```link: https://prusaprinters_url```
+ 
+ example: http://localhost:8000/wp-json/prusa-link/v1/data?link=https://www.prusaprinters.org/cs/prints/32714-prusa-pro-face-shield
+ 
+ ### Response example
+ ```
+{
+    "link": "https://www.prusaprinters.org/cs/prints/32714-prusa-pro-face-shield",
+    "title": "PRUSA PRO Face Shield",
+    "author": "Prusa Research",
+    "image": "https://media.prusaprinters.org/thumbs/cover/640x480/media/prints/32714/images/321421_5dab8cf2-73f0-43b4-af7e-e0083ea5ce5c/1e.jpg",
+    "author_image": "https://media.prusaprinters.org/thumbs/cover/60x60/media/avatars/16/prusa-research-2018-farma.jpg"
+}
+```
+ 
